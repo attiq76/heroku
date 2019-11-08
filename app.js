@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
  
 var   consumerSecret = process.env.SF_CANVASAPP_CLIENT_SECRET;
 var eomPublicKey=process.env.EOM_PUBLIC_KEY;
-
+var awsUrl=process.evn.AWS_URL;
 
    
 app.get('/', (req, res) => {
@@ -62,10 +62,11 @@ app.get('/', (req, res) => {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		 
-		res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
+		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
+		res.redirect(awsUrl);
 		
 	  } else {
-		  j
+		  
 		res.send("authentication failed");
 	  };
   }
@@ -91,16 +92,17 @@ app.get('/', (req, res) => {
 		else if(decodedToken==null || decodedToken =='undefined')
 		{
 			jwt_token=null;
-			res.send("jwt get: authentication failed");
-			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+			res.redirect(awsUrl+'/error.html');
+			//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 		}
 		
   }
   else 
   {
-	  jwt_token=null;
+	    jwt_token=null;
 		console.log('signed req IS NULL=' + signed_req);
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
+		//res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
+		res.redirect(awsUrl+'/error.html');
 	};  
 });
 
@@ -133,10 +135,12 @@ app.get('/aptos_index.html', (req, res) => {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		 
-		res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
+		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
+		res.redirect(awsUrl);
 		
 	  } else {
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		res.redirect(awsUrl+'/error.html');
 	  };
   }
   else if(jwt_token!=null && jwt_token!=='undefined') //EOM authentication
@@ -148,13 +152,14 @@ app.get('/aptos_index.html', (req, res) => {
 			var eomPath= decodedToken.payload.path;
 			var host=decodedToken.payload.aud;
 			jwt_token=null;
-			var pageName='Home.html';
+			var pageName='/Home.html';
 			if(!eomPath.includes('.html'))
 			{
 				eomPath=eomPath+pageName;
 			}
-			var fullUrl= req.protocol + '://' + req.get('host');
-			fullUrl=fullUrl.substring(0,fullUrl.length);
+			var fullUrl= awsUrl;//req.protocol + '://' + req.get('host');
+			fullUrl=fullUrl.substring(0,fullUrl.length-1);
+			
 			res.redirect( fullUrl  + eomPath);
 			res.end();
 		}
@@ -162,7 +167,8 @@ app.get('/aptos_index.html', (req, res) => {
 		{
 			jwt_token=null;
 			res.send("jwt get: authentication failed");
-			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+			res.redirect(awsUrl+'/error.html');
+			//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 		}
 		
 	
@@ -172,7 +178,8 @@ app.get('/aptos_index.html', (req, res) => {
   {
 	    jwt_token=null;
 		console.log('signed req IS NULL=' + signed_req);
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
+		res.redirect(awsUrl+'/error.html');
+		//res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
 		
 	};  
 });
@@ -211,12 +218,14 @@ app.post('*', function (req, res) {
 	  if (hashedContext === b64Hash) {
 		
 		res.setHeader('authorization', auth);
-		res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
+		res.redirect(awsUrl);
+		//res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
 		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		
 	  } else {
 		  res.setHeader('authorization', auth);
-		  res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
+		  res.redirect(awsUrl+'/error.html');
+		  //res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
 		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };
   }
@@ -262,8 +271,8 @@ app.post('*', function (req, res) {
 						eomPath=eomPath+pageName;
 					}
 					
-					var fullUrl= req.protocol + '://' + req.get('host');
-					fullUrl=fullUrl.substring(0,fullUrl.length);
+					var fullUrl= awsUrl;//req.protocol + '://' + req.get('host');
+					fullUrl=fullUrl.substring(0,fullUrl.length-1);
 					
 					console.log(' *** URL=' + fullUrl + eomPath);
 					res.redirect( fullUrl + eomPath);
@@ -273,7 +282,8 @@ app.post('*', function (req, res) {
 				else if(decodedToken==null || decodedToken =='undefined')
 				{
 					jwt_token=null;
-					res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+					res.redirect(awsUrl+'/error.html');
+					//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 				}
 				else{
 					jwt_token=null;
@@ -287,24 +297,18 @@ app.post('*', function (req, res) {
 			decodedToken=null;
 			jwt_token=null;
 			console.log(e);
-			res.sendFile("error\.html", {"root": path.join(__dirname, 'public')});
+			res.redirect(awsUrl+'/error.html');
+			//res.sendFile("error\.html", {"root": path.join(__dirname, 'public')});
 			
 		}
 
   }
   else {
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		res.redirect(awsUrl+'/error.html');
+		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };  		
 });
 
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
 
 app.use(function(req, res, next) {
 	    next();
