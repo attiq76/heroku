@@ -208,10 +208,12 @@ app.post('*', function (req, res) {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		
-		res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
+		res.redirect("https://aptosdoc.s3.amazonaws.com/index.html");
+		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		
 	  } else {
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		  res.redirect("https://aptosdoc.s3.amazonaws.com/index.html");
+		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };
   }
   else if(jwt_token!=null && jwt_token!=='undefined') //EOM authentication
