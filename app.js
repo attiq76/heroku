@@ -208,11 +208,11 @@ app.post('*', function (req, res) {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		
-		res.redirect("https://aptosdoc.s3.amazonaws.com/index.html");
+		res.sendFile("https://aptosdoc.s3.amazonaws.com/index.html");
 		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		
 	  } else {
-		  res.redirect("https://aptosdoc.s3.amazonaws.com/index.html");
+		  res.sendFile("https://aptosdoc.s3.amazonaws.com/index.html");
 		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };
   }
