@@ -181,7 +181,9 @@ app.get('/aptos_index.html', (req, res) => {
 
 app.post('*', function (req, res) {
 	
-	
+	var username = 'user';
+	var password = 'password';
+	var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
  
    // Desk secret key	
   var shared = consumerSecret;
@@ -208,11 +210,13 @@ app.post('*', function (req, res) {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		
-		res.redirect("https://aptosdoc.s3.amazonaws.com/index.html");
+		res.setHeader('Authorization', auth);
+		res.redirect("http://d3puwp3b6282u6.cloudfront.net/");
 		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		
 	  } else {
-		  res.redirect("https://aptosdoc.s3.amazonaws.com/index.html");
+		  res.setHeader('Authorization', auth);
+		  res.redirect("http://d3puwp3b6282u6.cloudfront.net/");
 		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };
   }
