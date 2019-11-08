@@ -210,12 +210,12 @@ app.post('*', function (req, res) {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		
-		res.setHeader('Authorization', auth);
+		res.setHeader('authorization', auth);
 		res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
 		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		
 	  } else {
-		  res.setHeader('Authorization', auth);
+		  res.setHeader('authorization', auth);
 		  res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
 		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };
