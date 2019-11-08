@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
  
 var   consumerSecret = process.env.SF_CANVASAPP_CLIENT_SECRET;
 var eomPublicKey=process.env.EOM_PUBLIC_KEY;
-var awsUrl=process.evn.AWS_URL;
+var awsUrl=process.env.AWS_URL;
 
    
 app.get('/', (req, res) => {
