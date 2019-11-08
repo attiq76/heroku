@@ -99,8 +99,9 @@ app.post('/', function (req, res) {
   var signed_req = req.body.signed_request;
   console.log('POST JSON = ' + JSON.stringify(req.body));
   
- if(jwt_token==null)
+ if(jwt_token==null || jwt_token=='undefined')
 	   jwt_token=req.body.id_token;
+   
   console.log("POST: JWT TOKEN= " + jwt_token);
   // invalid token - synchronous
 	var decoded = jwt.decode(jwt_token, {complete: true});
@@ -121,7 +122,7 @@ app.post('/', function (req, res) {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		
-		res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/root')});
+		res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		//return res.redirect('https://d3i9249bxi8vv1.cloudfront.net/?key=' + encryption);
 		
 	  } else {
@@ -136,7 +137,7 @@ app.post('/', function (req, res) {
       if(decoded.payload.idp==idpValue)
 	  {
 		  console.log('SEND FILE CALLED FROM POST');
-		  res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/root')});
+		  res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		  //res.render(__dirname +'/public/views/aptos_index.html');
 	  }
 	  else {
