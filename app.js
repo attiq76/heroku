@@ -212,7 +212,7 @@ app.post('*', function (req, res) {
 	var signed_req = req.body.signed_request;
 	signedRequest=signed_req;
   
-  if(jwt_token==null && typeof jwt_token!=='undefined')
+  if(jwt_token==null || typeof jwt_token ==='undefined')
 	{
 	   jwt_token=req.body.eom_token;
 	   console.log("POST: JWT TOKEN= " + jwt_token);
