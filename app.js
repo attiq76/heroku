@@ -44,6 +44,8 @@ app.get('/', (req, res) => {
 	else
 		signed_req=req.body.signed_request;
 	
+	console.log('SR= ' + signed_req);
+	
 	var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
 	// set aws authentication header
 	res.setHeader('authorization', auth);
@@ -54,7 +56,7 @@ app.get('/', (req, res) => {
 	   console.log("GET: JWT TOKEN= " + jwt_token);
 	}
 
-  if(typeof signed_req !== 'undefined' && signed_req!='null')
+  if(typeof signed_req !== 'undefined' && signed_req!='null' && signed_req!=null)
   {
 	  let data = "Aptos2019!";
 	  let encryption=crypto.createHash('md5').update(data).digest("hex");
