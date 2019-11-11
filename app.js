@@ -72,11 +72,12 @@ app.get('/', (req, res) => {
 	  if (hashedContext === b64Hash) {
 		 
 		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
+		signed_req=null
 		res.redirect(awsUrl);
 		
 	  } else {
-		  
-		res.send("authentication failed");
+		  signed_req=null
+		res.redirect(awsUrl+'error.html');
 	  };
   }
   else if(jwt_token!=null && jwt_token!=='undefined') //EOM authentication
@@ -101,8 +102,8 @@ app.get('/', (req, res) => {
 		else if(decodedToken==null || decodedToken =='undefined')
 		{
 			jwt_token=null;
-			
-			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+			res.redirect(awsUrl+'error.html');
+			//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 		}
 		
   }
@@ -110,7 +111,7 @@ app.get('/', (req, res) => {
   {
 	    jwt_token=null;
 		console.log('signed req IS NULL=' + signed_req);
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
+		res.redirect(awsUrl+'error.html');
 		
 	};  
 });
@@ -234,7 +235,7 @@ app.post('*', function (req, res) {
 		
 	  } else {
 		
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		res.redirect(awsUrl+'error.html');
 	  };
   }
   else if(jwt_token!=null && jwt_token!=='undefined') //EOM authentication
@@ -263,7 +264,7 @@ app.post('*', function (req, res) {
 		   jwt_token=null;
 		   decodedToken=null;
 		  
-		   res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		   res.redirect(awsUrl+'error.html');
 		  }
 		  else{
 			  
@@ -291,7 +292,7 @@ app.post('*', function (req, res) {
 				else if(decodedToken==null || decodedToken =='undefined')
 				{
 					jwt_token=null;
-					res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+					res.redirect(awsUrl+'error.html');
 				}
 				else{
 					jwt_token=null;
@@ -306,14 +307,14 @@ app.post('*', function (req, res) {
 			jwt_token=null;
 			console.log(e);
 			
-			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+			res.redirect(awsUrl+'error.html');
 			
 		}
 
   }
   else {
 		
-		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		res.redirect(awsUrl+'error.html');
 	  };  		
 });
 
