@@ -242,9 +242,8 @@ app.post('*', function (req, res) {
   {
 	   
 		var decodedToken=null;
-		try{
-	     
-		 //decodedToken=jwt.decode(jwt_token,{complete:true});
+		try{	     
+ 	 //decodedToken=jwt.decode(jwt_token,{complete:true});
 		 var hostName=req.get('host');
 		 var cert;
 		 console.log('HOSTNAME = '+hostName);
