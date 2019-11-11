@@ -113,7 +113,7 @@ app.get('/', (req, res) => {
 	};  
 });
 
-app.get('/aptos_index.html', (req, res) => {
+app.get('*', (req, res) => {
 	
     // Desk secret key	
 	var shared = consumerSecret;
