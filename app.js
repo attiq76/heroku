@@ -285,7 +285,7 @@ app.post('*', function (req, res) {
 					
 					res.setHeader('authorization', auth);
 					console.log(' *** URL=' + fullUrl + eomPath);
-					res.redirect( fullUrl + eomPath);
+					res.redirect( fullUrl + '?path=' eomPath);
 					res.end();
 					
 				}
