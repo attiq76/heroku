@@ -283,6 +283,7 @@ app.post('*', function (req, res) {
 					var fullUrl= awsUrl;//req.protocol + '://' + req.get('host');
 					fullUrl=fullUrl.substring(0,fullUrl.length-1);
 					
+					res.setHeader('authorization', auth);
 					console.log(' *** URL=' + fullUrl + eomPath);
 					res.redirect( fullUrl + eomPath);
 					res.end();
