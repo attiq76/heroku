@@ -125,7 +125,7 @@ app.get('*', (req, res) => {
 	// set aws authentication header
 	res.setHeader('authorization', auth);
 	
-	if(jwt_token==null && typeof !=='undefined')
+	if(jwt_token==null && typeof jwt_token !== 'undefined')
 	{
 	   jwt_token=req.body.eom_token;
 	   console.log("GET: JWT TOKEN= " + jwt_token);
