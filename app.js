@@ -11,6 +11,9 @@
   var signedRequest='TEST';
   var jwt_token=null;
   
+  //AWS credentials
+  var username = 'user';
+  var password = 'password';
 	
  
 app        = express();
@@ -40,6 +43,10 @@ app.get('/', (req, res) => {
 		signed_req= signedRequest;
 	else
 		signed_req=req.body.signed_request;
+	
+	var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
+	// set aws authentication header
+	res.setHeader('authorization', auth);
 	
 	if(jwt_token==null)
 	{
@@ -92,8 +99,8 @@ app.get('/', (req, res) => {
 		else if(decodedToken==null || decodedToken =='undefined')
 		{
 			jwt_token=null;
-			res.redirect(awsUrl+'/error.html');
-			//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+			
+			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 		}
 		
   }
@@ -101,8 +108,8 @@ app.get('/', (req, res) => {
   {
 	    jwt_token=null;
 		console.log('signed req IS NULL=' + signed_req);
-		//res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
-		res.redirect(awsUrl+'/error.html');
+		res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
+		
 	};  
 });
 
@@ -113,6 +120,10 @@ app.get('/aptos_index.html', (req, res) => {
    // Grab signed request
 	var signed_req;
     signed_req=req.body.signed_request;
+	
+	var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
+	// set aws authentication header
+	res.setHeader('authorization', auth);
 	
 	if(jwt_token==null)
 	{
@@ -139,8 +150,8 @@ app.get('/aptos_index.html', (req, res) => {
 		res.redirect(awsUrl);
 		
 	  } else {
-		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
-		res.redirect(awsUrl+'/error.html');
+		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		
 	  };
   }
   else if(jwt_token!=null && jwt_token!=='undefined') //EOM authentication
@@ -167,8 +178,8 @@ app.get('/aptos_index.html', (req, res) => {
 		{
 			jwt_token=null;
 			res.send("jwt get: authentication failed");
-			res.redirect(awsUrl+'/error.html');
-			//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+			
+			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 		}
 		
 	
@@ -177,9 +188,8 @@ app.get('/aptos_index.html', (req, res) => {
   else 
   {
 	    jwt_token=null;
-		console.log('signed req IS NULL=' + signed_req);
-		res.redirect(awsUrl+'/error.html');
-		//res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
+
+		res.sendFile("error.html", {"root": path.join(__dirname, 'public/views')});
 		
 	};  
 });
@@ -188,17 +198,18 @@ app.get('/aptos_index.html', (req, res) => {
 
 app.post('*', function (req, res) {
 	
-	var username = 'user';
-	var password = 'password';
+	
 	var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
- 
-   // Desk secret key	
-  var shared = consumerSecret;
-  // Grab signed request
-  var signed_req = req.body.signed_request;
-  signedRequest=signed_req;
+	// set aws authentication header
+	res.setHeader('authorization', auth);
+	
+	// Desk secret key	
+	var shared = consumerSecret;
+	// Grab signed request
+	var signed_req = req.body.signed_request;
+	signedRequest=signed_req;
   
-  if(jwt_token==null)
+  if(jwt_token==null && typeof jwt_token!=='undefined')
 	{
 	   jwt_token=req.body.eom_token;
 	   console.log("POST: JWT TOKEN= " + jwt_token);
@@ -217,16 +228,11 @@ app.post('*', function (req, res) {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		
-		res.setHeader('authorization', auth);
 		res.redirect(awsUrl);
-		//res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
-		//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public/views')});
 		
 	  } else {
-		  res.setHeader('authorization', auth);
-		  res.redirect(awsUrl+'/error.html');
-		  //res.redirect("https://d3puwp3b6282u6.cloudfront.net/");
-		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		
+		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };
   }
   else if(jwt_token!=null && jwt_token!=='undefined') //EOM authentication
@@ -254,6 +260,7 @@ app.post('*', function (req, res) {
 		   console.log('ERROR in Verifying = '+err);
 		   jwt_token=null;
 		   decodedToken=null;
+		  
 		   res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 		  }
 		  else{
@@ -282,8 +289,7 @@ app.post('*', function (req, res) {
 				else if(decodedToken==null || decodedToken =='undefined')
 				{
 					jwt_token=null;
-					res.redirect(awsUrl+'/error.html');
-					//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+					res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 				}
 				else{
 					jwt_token=null;
@@ -297,15 +303,15 @@ app.post('*', function (req, res) {
 			decodedToken=null;
 			jwt_token=null;
 			console.log(e);
-			res.redirect(awsUrl+'/error.html');
-			//res.sendFile("error\.html", {"root": path.join(__dirname, 'public')});
+			
+			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 			
 		}
 
   }
   else {
-		res.redirect(awsUrl+'/error.html');
-		//res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+		
+		res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
 	  };  		
 });
 
