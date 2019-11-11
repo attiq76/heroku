@@ -200,7 +200,7 @@ app.get('*', (req, res) => {
 
 
 app.post('*', function (req, res) {
-	console.log('3333333333333333333333333');
+	console.log('3333333333333333333333333' + __dirname);
 	
 	var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
 	// set aws authentication header
