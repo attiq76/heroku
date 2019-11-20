@@ -329,7 +329,7 @@ app.use(function(req, res, next) {
 	    next();
 });
 
-function authenticateWithAWS(var endPath)
+function authenticateWithAWS(endPath)
 {
 	var options = {
    host: 'd3puwp3b6282u6.cloudfront.net',
