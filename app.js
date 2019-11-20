@@ -350,7 +350,7 @@ request = http.get(options, function(res){
    });
    res.on('end', function() {
     //here we have the full response, html or json object
-	res.send(body);
+	//res.send(body);
       console.log(body);
    })
    res.on('error', function(e) {
