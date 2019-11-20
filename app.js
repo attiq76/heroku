@@ -333,7 +333,7 @@ function authenticateWithAWS()
 {
 	var options = {
    host: 'reqbin76.herokuapp.com/11viyp81',
-   port: 443,
+   port: 80,   
    path: '/' ,
    // authentication headers
    headers: {
