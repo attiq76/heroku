@@ -264,7 +264,7 @@ app.post('*', function (req, res) {
 		   decodedToken=null;
 		  
 		   //res.redirect(awsUrl+'error.html');
-		   authenticateWithAWS('error.html');
+		   authenticateWithAWS();
 		  }
 		  else{
 			  
@@ -288,7 +288,7 @@ app.post('*', function (req, res) {
 					console.log(' *** URL=' + fullUrl + eomPath);
 					
 					//res.redirect( fullUrl + '?path=' + eomPath);
-					authenticateWithAWS(eomPath);
+					authenticateWithAWS();
 					
 					res.end();
 					
@@ -297,7 +297,7 @@ app.post('*', function (req, res) {
 				{
 					jwt_token=null;
 					//res.redirect(awsUrl+'error.html');
-					authenticateWithAWS('error.html');
+					authenticateWithAWS();
 				}
 				else{
 					jwt_token=null;
@@ -313,7 +313,7 @@ app.post('*', function (req, res) {
 			console.log(e);
 			
 			//res.redirect(awsUrl+'error.html');
-			authenticateWithAWS('error.html');
+			authenticateWithAWS();
 			
 		}
 
@@ -329,12 +329,12 @@ app.use(function(req, res, next) {
 	    next();
 });
 
-function authenticateWithAWS(endPath)
+function authenticateWithAWS()
 {
 	var options = {
    host: 'd3puwp3b6282u6.cloudfront.net',
    port: 443,
-   path: '/' + endPath,
+   path: '/' ,
    // authentication headers
    headers: {
       'authorization': 'Basic ' + new Buffer(username + ':' + password).toString('base64')
