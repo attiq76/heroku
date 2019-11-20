@@ -332,7 +332,7 @@ app.use(function(req, res, next) {
 function authenticateWithAWS()
 {
 	var options = {
-   host: 'd3puwp3b6282u6.cloudfront.net',
+   host: 'reqbin76.herokuapp.com/11viyp81',
    port: 443,
    path: '/' ,
    // authentication headers
