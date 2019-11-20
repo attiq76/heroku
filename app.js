@@ -263,7 +263,8 @@ app.post('*', function (req, res) {
 		   jwt_token=null;
 		   decodedToken=null;
 		  
-		   res.redirect(awsUrl+'error.html');
+		   //res.redirect(awsUrl+'error.html');
+		   authenticateWithAWS('error.html');
 		  }
 		  else{
 			  
@@ -285,14 +286,18 @@ app.post('*', function (req, res) {
 					
 					res.setHeader('authorization', auth);
 					console.log(' *** URL=' + fullUrl + eomPath);
-					res.redirect( fullUrl + '?path=' + eomPath);
+					
+					//res.redirect( fullUrl + '?path=' + eomPath);
+					authenticateWithAWS(eomPath);
+					
 					res.end();
 					
 				}
 				else if(decodedToken==null || decodedToken =='undefined')
 				{
 					jwt_token=null;
-					res.redirect(awsUrl+'error.html');
+					//res.redirect(awsUrl+'error.html');
+					authenticateWithAWS('error.html');
 				}
 				else{
 					jwt_token=null;
@@ -307,7 +312,8 @@ app.post('*', function (req, res) {
 			jwt_token=null;
 			console.log(e);
 			
-			res.redirect(awsUrl+'error.html');
+			//res.redirect(awsUrl+'error.html');
+			authenticateWithAWS('error.html');
 			
 		}
 
@@ -322,6 +328,38 @@ app.post('*', function (req, res) {
 app.use(function(req, res, next) {
 	    next();
 });
+
+function authenticateWithAWS(var endPath)
+{
+	var options = {
+   host: 'd3puwp3b6282u6.cloudfront.net',
+   port: 443,
+   path: '/' + endPath,
+   // authentication headers
+   headers: {
+      'authorization': 'Basic ' + new Buffer(username + ':' + password).toString('base64')
+   }   
+};
+
+//this is the call
+request = http.get(options, function(res){
+   var body = "";
+   res.on('data', function(data) {
+      body += data;
+	  
+   });
+   res.on('end', function() {
+    //here we have the full response, html or json object
+	res.send(body);
+      console.log(body);
+   })
+   res.on('error', function(e) {
+      console.log("Got error: " + e.message);
+   });
+	});
+
+}
+}
 
 
  
