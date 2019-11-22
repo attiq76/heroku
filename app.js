@@ -183,6 +183,7 @@ app.get('*', (req, res) => {
 			res.send("jwt get: authentication failed");
 			
 			res.sendFile("error.html", {"root": path.join(__dirname, 'public')});
+			res.redirect(awsUrl+'error.html');
 		}
 		
 	
@@ -263,8 +264,8 @@ app.post('*', function (req, res) {
 		   jwt_token=null;
 		   decodedToken=null;
 		  
-		   //res.redirect(awsUrl+'error.html');
-		   authenticateWithAWS();
+		   res.redirect(awsUrl+'error.html');
+		   //authenticateWithAWS();
 		  }
 		  else{
 			  
@@ -287,8 +288,8 @@ app.post('*', function (req, res) {
 					res.setHeader('authorization', auth);
 					console.log(' *** URL=' + fullUrl + eomPath);
 					
-					//res.redirect( fullUrl + '?path=' + eomPath);
-					authenticateWithAWS();
+					res.redirect( fullUrl + '?path=' + eomPath);
+					//authenticateWithAWS();
 					
 					res.end();
 					
@@ -296,8 +297,8 @@ app.post('*', function (req, res) {
 				else if(decodedToken==null || decodedToken =='undefined')
 				{
 					jwt_token=null;
-					//res.redirect(awsUrl+'error.html');
-					authenticateWithAWS();
+					res.redirect(awsUrl+'error.html');
+					//authenticateWithAWS();
 				}
 				else{
 					jwt_token=null;
@@ -312,8 +313,8 @@ app.post('*', function (req, res) {
 			jwt_token=null;
 			console.log(e);
 			
-			//res.redirect(awsUrl+'error.html');
-			authenticateWithAWS();
+			res.redirect(awsUrl+'error.html');
+			//authenticateWithAWS();
 			
 		}
 
@@ -332,7 +333,7 @@ app.use(function(req, res, next) {
 function authenticateWithAWS()
 {
 	var options = {
-   host: 'reqbin76.herokuapp.com/11viyp81',
+   host: 'www.google.com',
    port: 80,   
    path: '/' ,
    // authentication headers
@@ -366,3 +367,4 @@ request = http.get(options, function(res){
 var port = process.env.PORT || 9000;
 app.listen(port);
 console.log('Listening on port ' + port);
+authenticateWithAWS();
