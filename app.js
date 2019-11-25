@@ -291,7 +291,7 @@ app.post('*', function (req, res) {
 					
 					//res.redirect( fullUrl + '?path=' + eomPath);
 					res.redirect(fullUrl + eomPath + '/?' + + '/?' + qsParam);
-					//authenticateWithAWS();
+a					//authenticateWithAWS();
 					
 					res.end();
 					
@@ -332,36 +332,6 @@ app.use(function(req, res, next) {
 	    next();
 });
 
-function authenticateWithAWS()
-{
-	var options = {
-   host: 'www.google.com',
-   port: 80,   
-   path: '/' ,
-   // authentication headers
-   headers: {
-      'authorization': 'Basic ' + new Buffer(username + ':' + password).toString('base64')
-   }   
-};
-
-//this is the call
-request = http.get(options, function(res){
-   var body = "";
-   res.on('data', function(data) {
-      body += data;
-	  
-   });
-   res.on('end', function() {
-    //here we have the full response, html or json object
-	//res.send(body);
-      console.log(body);
-   })
-   res.on('error', function(e) {
-      console.log("Got error: " + e.message);
-   });
-	});
-
-}
 
 
 
@@ -369,4 +339,3 @@ request = http.get(options, function(res){
 var port = process.env.PORT || 9000;
 app.listen(port);
 console.log('Listening on port ' + port);
-authenticateWithAWS();
