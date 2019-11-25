@@ -33,7 +33,7 @@ var awsUrl=process.env.AWS_URL;
 
    
 app.get('/', (req, res) => {
-	console.log('11111111111111111111111111111111');
+	
 	console.log('HTTP * SIGNED REQ=' + req.body.signed_request);
   // Desk secret key	
 	var shared = consumerSecret;
@@ -117,7 +117,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-	console.log('222222222222222222222222222222');
+	
     // Desk secret key	
 	var shared = consumerSecret;
    // Grab signed request
@@ -201,9 +201,10 @@ app.get('*', (req, res) => {
 
 
 app.post('*', function (req, res) {
-	console.log('3333333333333333333333333' + __dirname);
+	
 	
 	var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
+	var qsParam='token='+new Buffer(username + ':' + password).toString('base64');
 	// set aws authentication header
 	res.setHeader('authorization', auth);
 	
@@ -232,7 +233,7 @@ app.post('*', function (req, res) {
 	  var b64Hash = CryptoJS.enc.Base64.stringify(hash);
 	  if (hashedContext === b64Hash) {
 		
-		res.redirect(awsUrl);
+		res.redirect(awsUrl + '/?' + qsParam);
 		
 	  } else {
 		
@@ -288,7 +289,8 @@ app.post('*', function (req, res) {
 					res.setHeader('authorization', auth);
 					console.log(' *** URL=' + fullUrl + eomPath);
 					
-					res.redirect( fullUrl + '?path=' + eomPath);
+					//res.redirect( fullUrl + '?path=' + eomPath);
+					res.redirect(fullUrl + eomPath + '/?' + + '/?' + qsParam);
 					//authenticateWithAWS();
 					
 					res.end();
