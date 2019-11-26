@@ -347,7 +347,7 @@ function authenticateWithAWS()
     console.log(data);
   });
   
-  resp.redirect('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam);
+  resp.redirect('http://d3puwp3b6282u6.cloudfront.net/?' + qsParam);
   
 
 }).on("error", (err) => {
