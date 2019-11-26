@@ -331,7 +331,7 @@ app.post('*', function (req, res) {
 });
 
 
-function authenticateWithAWS();
+function authenticateWithAWS()
 {
 	var qsParam='token='+new Buffer(username + ':' + password).toString('base64');
 	https.get('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam, (resp) => {
