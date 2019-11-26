@@ -334,7 +334,7 @@ app.post('*', function (req, res) {
 function authenticateWithAWS()
 {
 	var qsParam='token='+new Buffer(username + ':' + password).toString('base64');
-	https.get('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam, (resp) => {
+	http.get('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam, (resp) => {
   let data = '';
 
   // A chunk of data has been recieved.
@@ -347,7 +347,8 @@ function authenticateWithAWS()
     console.log(data);
   });
   
-  resp.redirect('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam);
+  //resp.redirect('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam);
+  
 
 }).on("error", (err) => {
   console.log("Error: " + err.message);
