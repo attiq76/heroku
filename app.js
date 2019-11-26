@@ -266,6 +266,7 @@ app.post('*', function (req, res) {
 		   jwt_token=null;
 		   decodedToken=null;
 		  
+		  console.log(awsUrl+ qsParam );
 		   res.redirect(303, awsUrl+ qsParam );
 		   //authenticateWithAWS();
 		   //res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
