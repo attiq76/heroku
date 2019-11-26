@@ -266,8 +266,8 @@ app.post('*', function (req, res) {
 		   jwt_token=null;
 		   decodedToken=null;
 		  
-		   //res.redirect(awsUrl+'error.html');
-		   authenticateWithAWS();
+		   res.redirect(303, awsUrl+'error.html');
+		   //authenticateWithAWS();
 		   //res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
 		  }
 		  else{
@@ -292,9 +292,9 @@ app.post('*', function (req, res) {
 					console.log(' *** URL=' + fullUrl + eomPath);
 					
 					//res.redirect( fullUrl + '?path=' + eomPath);
-					//res.redirect(fullUrl + eomPath + '/?' + + '/?' + qsParam);
+					res.redirect(303, fullUrl + eomPath + '/?' + + '/?' + qsParam);
 					//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
-     				authenticateWithAWS();
+     				//authenticateWithAWS();
 					
 					res.end();
 					
@@ -302,8 +302,8 @@ app.post('*', function (req, res) {
 				else if(decodedToken==null || decodedToken =='undefined')
 				{
 					jwt_token=null;
-					//res.redirect(awsUrl+'error.html');
-					authenticateWithAWS();
+					res.redirect(303, awsUrl+'error.html');
+					//authenticateWithAWS();
 				}
 				else{
 					jwt_token=null;
@@ -318,7 +318,7 @@ app.post('*', function (req, res) {
 			jwt_token=null;
 			console.log(e);
 			
-			res.redirect(awsUrl+'error.html');
+			res.redirect(303, awsUrl+'error.html');
 			//authenticateWithAWS();
 			
 		}
@@ -347,7 +347,9 @@ function authenticateWithAWS()
     console.log(data);
   });
   
-  resp.redirect('http://d3puwp3b6282u6.cloudfront.net/?' + qsParam);
+  
+  
+  //resp.redirect('http://d3puwp3b6282u6.cloudfront.net/?' + qsParam);
   
 
 }).on("error", (err) => {
