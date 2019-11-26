@@ -265,8 +265,9 @@ app.post('*', function (req, res) {
 		   jwt_token=null;
 		   decodedToken=null;
 		  
-		   res.redirect(awsUrl+'error.html');
+		   //res.redirect(awsUrl+'error.html');
 		   //authenticateWithAWS();
+		   res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
 		  }
 		  else{
 			  
@@ -290,7 +291,8 @@ app.post('*', function (req, res) {
 					console.log(' *** URL=' + fullUrl + eomPath);
 					
 					//res.redirect( fullUrl + '?path=' + eomPath);
-					res.redirect(fullUrl + eomPath + '/?' + + '/?' + qsParam);
+					//res.redirect(fullUrl + eomPath + '/?' + + '/?' + qsParam);
+					res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
 a					//authenticateWithAWS();
 					
 					res.end();
