@@ -334,7 +334,7 @@ app.post('*', function (req, res) {
 function authenticateWithAWS()
 {
 	var qsParam='token='+new Buffer(username + ':' + password).toString('base64');
-	http.get('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam, (resp) => {
+	http.get('http://d3puwp3b6282u6.cloudfront.net/?' + qsParam, (resp) => {
   let data = '';
 
   // A chunk of data has been recieved.
