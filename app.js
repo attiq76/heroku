@@ -7,6 +7,7 @@
   var http = require('http');
   var jwt = require('jsonwebtoken');
   var fs = require('fs');
+  const https = require('https');
   
   var signedRequest='TEST';
   var jwt_token=null;
@@ -266,8 +267,8 @@ app.post('*', function (req, res) {
 		   decodedToken=null;
 		  
 		   //res.redirect(awsUrl+'error.html');
-		   //authenticateWithAWS();
-		   res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
+		   authenticateWithAWS();
+		   //res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
 		  }
 		  else{
 			  
@@ -292,8 +293,8 @@ app.post('*', function (req, res) {
 					
 					//res.redirect( fullUrl + '?path=' + eomPath);
 					//res.redirect(fullUrl + eomPath + '/?' + + '/?' + qsParam);
-					res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
-     				//authenticateWithAWS();
+					//res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
+     				authenticateWithAWS();
 					
 					res.end();
 					
@@ -301,8 +302,8 @@ app.post('*', function (req, res) {
 				else if(decodedToken==null || decodedToken =='undefined')
 				{
 					jwt_token=null;
-					res.redirect(awsUrl+'error.html');
-					//authenticateWithAWS();
+					//res.redirect(awsUrl+'error.html');
+					authenticateWithAWS();
 				}
 				else{
 					jwt_token=null;
@@ -329,6 +330,27 @@ app.post('*', function (req, res) {
 	  };  		
 });
 
+
+function authenticateWithAWS();
+{
+	var qsParam='token='+new Buffer(username + ':' + password).toString('base64');
+	https.get('https://d3puwp3b6282u6.cloudfront.net/?' + qsParam, (resp) => {
+  let data = '';
+
+  // A chunk of data has been recieved.
+  resp.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  // The whole response has been received. Print out the result.
+  resp.on('end', () => {
+    console.log(JSON.parse(data).explanation);
+  });
+
+}).on("error", (err) => {
+  console.log("Error: " + err.message);
+});
+}
 
 app.use(function(req, res, next) {
 	    next();
