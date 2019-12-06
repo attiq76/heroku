@@ -267,7 +267,9 @@ app.post('*', function (req, res) {
 		   decodedToken=null;
 		  
 		   console.log(awsUrl + 'error.html');
-		   res.redirect(303, awsUrl + 'error.html');
+		   //res.redirect(303, awsUrl + 'error.html');
+		   
+		   res.redirect(awsUrl + '/?' + qsParam);
 		   //authenticateWithAWS();
 		   //res.sendFile("aptos_index.html", {"root": path.join(__dirname, 'public')});
 		  }
